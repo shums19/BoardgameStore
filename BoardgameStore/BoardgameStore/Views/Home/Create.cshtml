@@ -6,10 +6,11 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Home",
+FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Boardgame</h4>
         <hr />
@@ -57,8 +58,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.cover_path, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.cover_path, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.cover_path, "", new { @class = "text-danger" })
+                <input type="file" id="upload-cover" name="upload" accept="image/*"/><br>
+                <div id="cover-image"></div>
+                @*@Html.EditorFor(model => model.cover_path, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.cover_path, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -171,6 +174,26 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function showFile(e) {
+        var f = e.target.files[0];
+        //for (var i = 0, f; f = files[i]; i++) {
+        if (f.type.match('image.*')) {
+            var fr = new FileReader();
+            fr.onload = (function (theFile) {
+                return function (e) {
+                    var div = document.createElement('div');
+                    document.getElementById('cover-image').innerHTML = "<img src='" + e.target.result + "' style='width: 100px; height: auto' />";
+                };
+            })(f);
+            fr.readAsDataURL(f);
+        }
+
+    }
+
+  document.getElementById('upload-cover').addEventListener('change', showFile, false);
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

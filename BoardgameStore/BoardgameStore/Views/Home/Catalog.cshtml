@@ -68,69 +68,77 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.boardgame_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.min_time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.max_time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.min_players)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.max_players)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cover_path)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.years)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.language)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.boardgame_number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.boardgame_cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.independence)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.images_paths)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.preview_description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.full_description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.boardgame_equipment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author.author_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Complexity.complexity_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Publisher.publisher_name)
-        </td>
-        <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id = item.boardgame_id }) |
-            @Html.ActionLink("Детали", "Details", new { id = item.boardgame_id }) |
-            @Html.ActionLink("Удалить", "Delete", new { id = item.boardgame_id }) |
-            @Html.ActionLink("В корзину", "IntoBasket", new { id = item.boardgame_id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.boardgame_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.min_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.max_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.min_players)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.max_players)
+            </td>
+            <td>
+                @if (!item.cover_path.IsEmpty() && !item.cover_path.Equals(""))
+                {
+                    <img src="~/Content/@item.cover_path" alt="Обложка" class="text-center" style="width: 30px; height: auto">
+                }
+                else
+                {
+                    <img src="~/Content/d12.png" alt="Обложка" class="text-center" style="width: 30px; height: auto">
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.years)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.language)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.boardgame_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.boardgame_cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.independence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.images_paths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.preview_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.full_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.boardgame_equipment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.author_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Complexity.complexity_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Publisher.publisher_name)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.boardgame_id }) |
+                @Html.ActionLink("Детали", "Details", new { id = item.boardgame_id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.boardgame_id }) |
+                @Html.ActionLink("В корзину", "IntoBasket", new { id = item.boardgame_id })
+            </td>
+        </tr>
+    }
 
 </table>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using BoardgameStore.Models;
@@ -51,10 +53,26 @@ namespace BoardgameStore.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,cover_path,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame)
+        public ActionResult Create([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    bool flag = false;
+                    string type = "";
+                    string covername = "";
+                    do
+                    {
+                        //ContentType contentType = new ContentType(image.ContentType);
+                        //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
+                        type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length - 1];
+                        covername = Path.GetRandomFileName() + "." + type;
+                        if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
+                    } while (flag);
+                    image.SaveAs(Server.MapPath("~/Content/" + covername));
+                    boardgame.cover_path = covername;
+                }
                 db.Boardgame.Add(boardgame);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -89,10 +107,26 @@ namespace BoardgameStore.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,cover_path,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame)
+        public ActionResult Edit([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,cover_path,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    bool flag = false;
+                    string type = "";
+                    string covername = "";
+                    do
+                    {
+                        //ContentType contentType = new ContentType(image.ContentType);
+                        //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
+                        type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length-1];
+                        covername = Path.GetRandomFileName() + "." + type;
+                        if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
+                    } while (flag);
+                    image.SaveAs(Server.MapPath("~/Content/" + covername));
+                    boardgame.cover_path = covername;
+                }
                 db.Entry(boardgame).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -124,6 +158,7 @@ namespace BoardgameStore.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Boardgame boardgame = db.Boardgame.Find(id);
+            System.IO.File.Delete(Server.MapPath("~/Content/" + boardgame.cover_path));
             db.Boardgame.Remove(boardgame);
             db.SaveChanges();
             return RedirectToAction("Index");
