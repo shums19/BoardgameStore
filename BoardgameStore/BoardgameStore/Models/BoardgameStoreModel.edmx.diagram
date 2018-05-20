@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b461faeac2fe4ac68ba422367ea8a6e1" Name="Diagram1">
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Author" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Basket" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Boardgame" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Complexity" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Publisher" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Purchase" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.PurchaseItem" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Review" Width="1.5" PointX="8.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.Status" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoardgameStoreDBModel.User" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BOARDGAM_CREATE_AUTHOR" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BASKET_BE_STATUS" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BASKET_BELONG_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BASKET_CONTAIN_BOARDGAM" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BOARDGAM_DESCRIBE_COMPLEXI" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_BOARDGAM_PUBLISH_PUBLISHE" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_PURCHASE_BIND_BOARDGAM" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_REVIEW_CHARACTER_BOARDGAM" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_PURCHASE_BUY_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_PURCHASE_CONTENT_PURCHASE" ManuallyRouted="false" />
+        <AssociationConnector Association="BoardgameStoreDBModel.FK_REVIEW_WRITE_USER" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

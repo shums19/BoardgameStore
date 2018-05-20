@@ -1,0 +1,796 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище BoardgameStoreDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="author_id" />
+          </Key>
+          <Property Name="author_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="author_description" Type="varchar" MaxLength="300" />
+          <Property Name="author_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="basket_id" />
+          </Key>
+          <Property Name="product_number" Type="int" Nullable="false" />
+          <Property Name="basket_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="boardgame_id" Type="int" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Boardgame">
+          <Key>
+            <PropertyRef Name="boardgame_id" />
+          </Key>
+          <Property Name="boardgame_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="min_time" Type="int" />
+          <Property Name="max_time" Type="int" />
+          <Property Name="min_players" Type="int" />
+          <Property Name="max_players" Type="int" />
+          <Property Name="cover_path" Type="varchar" MaxLength="20" />
+          <Property Name="years" Type="int" />
+          <Property Name="language" Type="varchar" MaxLength="10" />
+          <Property Name="boardgame_number" Type="int" Nullable="false" />
+          <Property Name="boardgame_cost" Type="int" Nullable="false" />
+          <Property Name="independence" Type="bit" />
+          <Property Name="images_paths" Type="text" />
+          <Property Name="preview_description" Type="varchar" MaxLength="100" />
+          <Property Name="full_description" Type="varchar" MaxLength="500" />
+          <Property Name="boardgame_equipment" Type="varchar" MaxLength="500" />
+          <Property Name="boardgame_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="author_id" Type="int" />
+          <Property Name="publisher_id" Type="int" />
+          <Property Name="complexity_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Complexity">
+          <Key>
+            <PropertyRef Name="complexity_id" />
+          </Key>
+          <Property Name="complexity_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="complexity_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="publisher_id" />
+          </Key>
+          <Property Name="publisher_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="publisher_description" Type="varchar" MaxLength="300" />
+          <Property Name="publisher_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="purchase_id" />
+          </Key>
+          <Property Name="purchase_comment" Type="varchar" MaxLength="100" />
+          <Property Name="purchase_datetime" Type="datetime" Nullable="false" />
+          <Property Name="purchase_address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="purchase_phone" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="purchase_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseItem">
+          <Key>
+            <PropertyRef Name="item_id" />
+          </Key>
+          <Property Name="items_numbers" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="purchase_id" Type="int" Nullable="false" />
+          <Property Name="boardgame_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_content" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="review_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="boardgame_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_firstname" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="user_lastname" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="user_middlename" Type="varchar" MaxLength="20" />
+          <Property Name="user_address" Type="varchar" MaxLength="100" />
+          <Property Name="user_email" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="user_phone" Type="varchar" MaxLength="10" />
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BASKET_BE_STATUS">
+          <End Role="Status" Type="Self.Status" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASKET_BELONG_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASKET_CONTAIN_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOARDGAM_CREATE_AUTHOR">
+          <End Role="Author" Type="Self.Author" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="author_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOARDGAM_DESCRIBE_COMPLEXI">
+          <End Role="Complexity" Type="Self.Complexity" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Complexity">
+              <PropertyRef Name="complexity_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="complexity_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOARDGAM_PUBLISH_PUBLISHE">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="publisher_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="publisher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_BIND_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseItem" Type="Self.PurchaseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="PurchaseItem">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_BUY_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_CONTENT_PURCHASE">
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseItem" Type="Self.PurchaseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="purchase_id" />
+            </Principal>
+            <Dependent Role="PurchaseItem">
+              <PropertyRef Name="purchase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REVIEW_CHARACTER_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REVIEW_WRITE_USER">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BoardgameStoreDBModelContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Basket" EntityType="Self.Basket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boardgame" EntityType="Self.Boardgame" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Complexity" EntityType="Self.Complexity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purchase" EntityType="Self.Purchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseItem" EntityType="Self.PurchaseItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BASKET_BE_STATUS" Association="Self.FK_BASKET_BE_STATUS">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASKET_BELONG_USER" Association="Self.FK_BASKET_BELONG_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASKET_CONTAIN_BOARDGAM" Association="Self.FK_BASKET_CONTAIN_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOARDGAM_CREATE_AUTHOR" Association="Self.FK_BOARDGAM_CREATE_AUTHOR">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOARDGAM_DESCRIBE_COMPLEXI" Association="Self.FK_BOARDGAM_DESCRIBE_COMPLEXI">
+            <End Role="Complexity" EntitySet="Complexity" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOARDGAM_PUBLISH_PUBLISHE" Association="Self.FK_BOARDGAM_PUBLISH_PUBLISHE">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_BIND_BOARDGAM" Association="Self.FK_PURCHASE_BIND_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="PurchaseItem" EntitySet="PurchaseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_BUY_USER" Association="Self.FK_PURCHASE_BUY_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_CONTENT_PURCHASE" Association="Self.FK_PURCHASE_CONTENT_PURCHASE">
+            <End Role="Purchase" EntitySet="Purchase" />
+            <End Role="PurchaseItem" EntitySet="PurchaseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REVIEW_CHARACTER_BOARDGAM" Association="Self.FK_REVIEW_CHARACTER_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REVIEW_WRITE_USER" Association="Self.FK_REVIEW_WRITE_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BoardgameStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="author_id" />
+          </Key>
+          <Property Name="author_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="author_description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="author_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_BOARDGAM_CREATE_AUTHOR" FromRole="Author" ToRole="Boardgame" />
+        </EntityType>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="basket_id" />
+          </Key>
+          <Property Name="product_number" Type="Int32" Nullable="false" />
+          <Property Name="basket_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="boardgame_id" Type="Int32" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_BASKET_BE_STATUS" FromRole="Basket" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="Self.FK_BASKET_BELONG_USER" FromRole="Basket" ToRole="User" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_BASKET_CONTAIN_BOARDGAM" FromRole="Basket" ToRole="Boardgame" />
+        </EntityType>
+        <EntityType Name="Boardgame">
+          <Key>
+            <PropertyRef Name="boardgame_id" />
+          </Key>
+          <Property Name="boardgame_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="min_time" Type="Int32" />
+          <Property Name="max_time" Type="Int32" />
+          <Property Name="min_players" Type="Int32" />
+          <Property Name="max_players" Type="Int32" />
+          <Property Name="cover_path" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="years" Type="Int32" />
+          <Property Name="language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="boardgame_number" Type="Int32" Nullable="false" />
+          <Property Name="boardgame_cost" Type="Int32" Nullable="false" />
+          <Property Name="independence" Type="Boolean" />
+          <Property Name="images_paths" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="preview_description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="full_description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="boardgame_equipment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="boardgame_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="author_id" Type="Int32" />
+          <Property Name="publisher_id" Type="Int32" />
+          <Property Name="complexity_id" Type="Int32" />
+          <NavigationProperty Name="Author" Relationship="Self.FK_BOARDGAM_CREATE_AUTHOR" FromRole="Boardgame" ToRole="Author" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK_BASKET_CONTAIN_BOARDGAM" FromRole="Boardgame" ToRole="Basket" />
+          <NavigationProperty Name="Complexity" Relationship="Self.FK_BOARDGAM_DESCRIBE_COMPLEXI" FromRole="Boardgame" ToRole="Complexity" />
+          <NavigationProperty Name="Publisher" Relationship="Self.FK_BOARDGAM_PUBLISH_PUBLISHE" FromRole="Boardgame" ToRole="Publisher" />
+          <NavigationProperty Name="PurchaseItem" Relationship="Self.FK_PURCHASE_BIND_BOARDGAM" FromRole="Boardgame" ToRole="PurchaseItem" />
+          <NavigationProperty Name="Review" Relationship="Self.FK_REVIEW_CHARACTER_BOARDGAM" FromRole="Boardgame" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="Complexity">
+          <Key>
+            <PropertyRef Name="complexity_id" />
+          </Key>
+          <Property Name="complexity_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="complexity_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_BOARDGAM_DESCRIBE_COMPLEXI" FromRole="Complexity" ToRole="Boardgame" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="publisher_id" />
+          </Key>
+          <Property Name="publisher_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="publisher_description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="publisher_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_BOARDGAM_PUBLISH_PUBLISHE" FromRole="Publisher" ToRole="Boardgame" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="purchase_id" />
+          </Key>
+          <Property Name="purchase_comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="purchase_datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="purchase_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="purchase_phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="purchase_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PURCHASE_BUY_USER" FromRole="Purchase" ToRole="User" />
+          <NavigationProperty Name="PurchaseItem" Relationship="Self.FK_PURCHASE_CONTENT_PURCHASE" FromRole="Purchase" ToRole="PurchaseItem" />
+        </EntityType>
+        <EntityType Name="PurchaseItem">
+          <Key>
+            <PropertyRef Name="item_id" />
+          </Key>
+          <Property Name="items_numbers" Type="Int32" Nullable="false" />
+          <Property Name="item_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="purchase_id" Type="Int32" Nullable="false" />
+          <Property Name="boardgame_id" Type="Int32" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_PURCHASE_BIND_BOARDGAM" FromRole="PurchaseItem" ToRole="Boardgame" />
+          <NavigationProperty Name="Purchase" Relationship="Self.FK_PURCHASE_CONTENT_PURCHASE" FromRole="PurchaseItem" ToRole="Purchase" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_content" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="review_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="boardgame_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="Boardgame" Relationship="Self.FK_REVIEW_CHARACTER_BOARDGAM" FromRole="Review" ToRole="Boardgame" />
+          <NavigationProperty Name="User" Relationship="Self.FK_REVIEW_WRITE_USER" FromRole="Review" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK_BASKET_BE_STATUS" FromRole="Status" ToRole="Basket" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_firstname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_lastname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_middlename" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="user_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK_BASKET_BELONG_USER" FromRole="User" ToRole="Basket" />
+          <NavigationProperty Name="Purchase" Relationship="Self.FK_PURCHASE_BUY_USER" FromRole="User" ToRole="Purchase" />
+          <NavigationProperty Name="Review" Relationship="Self.FK_REVIEW_WRITE_USER" FromRole="User" ToRole="Review" />
+        </EntityType>
+        <Association Name="FK_BOARDGAM_CREATE_AUTHOR">
+          <End Role="Author" Type="Self.Author" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="author_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASKET_BE_STATUS">
+          <End Role="Status" Type="Self.Status" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASKET_BELONG_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASKET_CONTAIN_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOARDGAM_DESCRIBE_COMPLEXI">
+          <End Role="Complexity" Type="Self.Complexity" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Complexity">
+              <PropertyRef Name="complexity_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="complexity_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOARDGAM_PUBLISH_PUBLISHE">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="0..1" />
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="publisher_id" />
+            </Principal>
+            <Dependent Role="Boardgame">
+              <PropertyRef Name="publisher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_BIND_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseItem" Type="Self.PurchaseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="PurchaseItem">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REVIEW_CHARACTER_BOARDGAM">
+          <End Role="Boardgame" Type="Self.Boardgame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boardgame">
+              <PropertyRef Name="boardgame_id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="boardgame_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_BUY_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PURCHASE_CONTENT_PURCHASE">
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PurchaseItem" Type="Self.PurchaseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="purchase_id" />
+            </Principal>
+            <Dependent Role="PurchaseItem">
+              <PropertyRef Name="purchase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REVIEW_WRITE_USER">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BoardgameStoreDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Author" EntityType="Self.Author" />
+          <EntitySet Name="Basket" EntityType="Self.Basket" />
+          <EntitySet Name="Boardgame" EntityType="Self.Boardgame" />
+          <EntitySet Name="Complexity" EntityType="Self.Complexity" />
+          <EntitySet Name="Publisher" EntityType="Self.Publisher" />
+          <EntitySet Name="Purchase" EntityType="Self.Purchase" />
+          <EntitySet Name="PurchaseItem" EntityType="Self.PurchaseItem" />
+          <EntitySet Name="Review" EntityType="Self.Review" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_BOARDGAM_CREATE_AUTHOR" Association="Self.FK_BOARDGAM_CREATE_AUTHOR">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASKET_BE_STATUS" Association="Self.FK_BASKET_BE_STATUS">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASKET_BELONG_USER" Association="Self.FK_BASKET_BELONG_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASKET_CONTAIN_BOARDGAM" Association="Self.FK_BASKET_CONTAIN_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOARDGAM_DESCRIBE_COMPLEXI" Association="Self.FK_BOARDGAM_DESCRIBE_COMPLEXI">
+            <End Role="Complexity" EntitySet="Complexity" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOARDGAM_PUBLISH_PUBLISHE" Association="Self.FK_BOARDGAM_PUBLISH_PUBLISHE">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Boardgame" EntitySet="Boardgame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_BIND_BOARDGAM" Association="Self.FK_PURCHASE_BIND_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="PurchaseItem" EntitySet="PurchaseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REVIEW_CHARACTER_BOARDGAM" Association="Self.FK_REVIEW_CHARACTER_BOARDGAM">
+            <End Role="Boardgame" EntitySet="Boardgame" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_BUY_USER" Association="Self.FK_PURCHASE_BUY_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PURCHASE_CONTENT_PURCHASE" Association="Self.FK_PURCHASE_CONTENT_PURCHASE">
+            <End Role="Purchase" EntitySet="Purchase" />
+            <End Role="PurchaseItem" EntitySet="PurchaseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REVIEW_WRITE_USER" Association="Self.FK_REVIEW_WRITE_USER">
+            <End Role="User" EntitySet="User" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BoardgameStoreDBModelContainer" CdmEntityContainer="BoardgameStoreDBEntities">
+          <EntitySetMapping Name="Author">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="author_name" ColumnName="author_name" />
+                <ScalarProperty Name="author_description" ColumnName="author_description" />
+                <ScalarProperty Name="author_id" ColumnName="author_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Basket">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Basket">
+              <MappingFragment StoreEntitySet="Basket">
+                <ScalarProperty Name="product_number" ColumnName="product_number" />
+                <ScalarProperty Name="basket_id" ColumnName="basket_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="boardgame_id" ColumnName="boardgame_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Boardgame">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Boardgame">
+              <MappingFragment StoreEntitySet="Boardgame">
+                <ScalarProperty Name="boardgame_name" ColumnName="boardgame_name" />
+                <ScalarProperty Name="min_time" ColumnName="min_time" />
+                <ScalarProperty Name="max_time" ColumnName="max_time" />
+                <ScalarProperty Name="min_players" ColumnName="min_players" />
+                <ScalarProperty Name="max_players" ColumnName="max_players" />
+                <ScalarProperty Name="cover_path" ColumnName="cover_path" />
+                <ScalarProperty Name="years" ColumnName="years" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="boardgame_number" ColumnName="boardgame_number" />
+                <ScalarProperty Name="boardgame_cost" ColumnName="boardgame_cost" />
+                <ScalarProperty Name="independence" ColumnName="independence" />
+                <ScalarProperty Name="images_paths" ColumnName="images_paths" />
+                <ScalarProperty Name="preview_description" ColumnName="preview_description" />
+                <ScalarProperty Name="full_description" ColumnName="full_description" />
+                <ScalarProperty Name="boardgame_equipment" ColumnName="boardgame_equipment" />
+                <ScalarProperty Name="boardgame_id" ColumnName="boardgame_id" />
+                <ScalarProperty Name="author_id" ColumnName="author_id" />
+                <ScalarProperty Name="publisher_id" ColumnName="publisher_id" />
+                <ScalarProperty Name="complexity_id" ColumnName="complexity_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Complexity">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Complexity">
+              <MappingFragment StoreEntitySet="Complexity">
+                <ScalarProperty Name="complexity_name" ColumnName="complexity_name" />
+                <ScalarProperty Name="complexity_id" ColumnName="complexity_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publisher">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Publisher">
+              <MappingFragment StoreEntitySet="Publisher">
+                <ScalarProperty Name="publisher_name" ColumnName="publisher_name" />
+                <ScalarProperty Name="publisher_description" ColumnName="publisher_description" />
+                <ScalarProperty Name="publisher_id" ColumnName="publisher_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchase">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Purchase">
+              <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="purchase_comment" ColumnName="purchase_comment" />
+                <ScalarProperty Name="purchase_datetime" ColumnName="purchase_datetime" />
+                <ScalarProperty Name="purchase_address" ColumnName="purchase_address" />
+                <ScalarProperty Name="purchase_phone" ColumnName="purchase_phone" />
+                <ScalarProperty Name="purchase_id" ColumnName="purchase_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseItem">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.PurchaseItem">
+              <MappingFragment StoreEntitySet="PurchaseItem">
+                <ScalarProperty Name="items_numbers" ColumnName="items_numbers" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="purchase_id" ColumnName="purchase_id" />
+                <ScalarProperty Name="boardgame_id" ColumnName="boardgame_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Review">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="review_content" ColumnName="review_content" />
+                <ScalarProperty Name="review_id" ColumnName="review_id" />
+                <ScalarProperty Name="boardgame_id" ColumnName="boardgame_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="BoardgameStoreDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="user_firstname" ColumnName="user_firstname" />
+                <ScalarProperty Name="user_lastname" ColumnName="user_lastname" />
+                <ScalarProperty Name="user_middlename" ColumnName="user_middlename" />
+                <ScalarProperty Name="user_address" ColumnName="user_address" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

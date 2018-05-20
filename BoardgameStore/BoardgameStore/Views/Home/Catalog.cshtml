@@ -1,0 +1,136 @@
+﻿@model IEnumerable<BoardgameStore.Models.Boardgame>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.boardgame_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.min_time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.max_time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.min_players)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.max_players)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cover_path)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.years)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.language)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.boardgame_number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.boardgame_cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.independence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.images_paths)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.preview_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.full_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.boardgame_equipment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author.author_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Complexity.complexity_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Publisher.publisher_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.boardgame_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.min_time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.max_time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.min_players)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.max_players)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cover_path)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.years)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.language)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.boardgame_number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.boardgame_cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.independence)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.images_paths)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.preview_description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.full_description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.boardgame_equipment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.author_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Complexity.complexity_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publisher.publisher_name)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.boardgame_id }) |
+            @Html.ActionLink("Детали", "Details", new { id = item.boardgame_id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.boardgame_id }) |
+            @Html.ActionLink("В корзину", "IntoBasket", new { id = item.boardgame_id })
+        </td>
+    </tr>
+}
+
+</table>
