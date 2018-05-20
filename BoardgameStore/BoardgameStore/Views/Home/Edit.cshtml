@@ -1,11 +1,11 @@
 ﻿@model BoardgameStore.Models.Boardgame
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование игры";
 }
 
-<h2>Edit</h2>
-
+<h2 style="color: #32A4B8; font-weight: 700" >Редактирование игры</h2>
+<hr />
 
 @using (Html.BeginForm("Edit", "Home",
 FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -13,19 +13,19 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Boardgame</h4>
+        <h4 style="color: #32A4B8; font-weight: 700" >Игра "@Model.boardgame_name"</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.boardgame_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.boardgame_name, "Название", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.boardgame_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.boardgame_name, new { htmlAttributes = new { @class = "form-control", @maxlength="20" } })
                 @Html.ValidationMessageFor(model => model.boardgame_name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.min_time, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.min_time, "Минимальное время партии", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.min_time, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.min_time, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.max_time, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.max_time, "Максимальное время партии", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.max_time, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.max_time, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.min_players, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.min_players, "Минимальное количество игроков", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.min_players, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.min_players, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.max_players, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.max_players, "Максимальное количество игроков", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.max_players, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.max_players, "", new { @class = "text-danger" })
@@ -57,9 +57,9 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.cover_path, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.cover_path, "Обложка", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" id="upload-cover" name="image" accept="image/*" /><br>
+                <input type="file" id="upload-cover" name="image" accept="image/*" class="form-control"/><br>
                 <div id="cover-image">
                     @if (!Model.cover_path.IsEmpty() && !Model.cover_path.Equals(""))
                     {
@@ -87,7 +87,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.years, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.years, "Возрастное ограничение", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.years, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.years, "", new { @class = "text-danger" })
@@ -95,7 +95,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.language, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.language, "Язык", htmlAttributes: new { @class = "control-label col-md-2", @maxlength = "10" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.language, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.language, "", new { @class = "text-danger" })
@@ -103,7 +103,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.boardgame_number, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.boardgame_number, "Количество на складе", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.boardgame_number, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.boardgame_number, "", new { @class = "text-danger" })
@@ -111,7 +111,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.boardgame_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.boardgame_cost, "Цена", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.boardgame_cost, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.boardgame_cost, "", new { @class = "text-danger" })
@@ -119,43 +119,46 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.independence, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.independence, "Игра независимая?", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.independence)
+                    @Html.EditorFor(model => model.independence, new { htmlAttributes = new { @class = "form-control", @style="width: 200px" } })
                     @Html.ValidationMessageFor(model => model.independence, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.images_paths, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.images_paths, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.images_paths, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.preview_description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.preview_description, "Описание на превью", htmlAttributes: new { @class = "control-label col-md-2", @maxlength = "100" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.preview_description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.preview_description, 5, 50, htmlAttributes: new { @class = "form-control" } )
+                @*@Html.EditorFor(model => model.preview_description, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.preview_description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.full_description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.full_description, "Полное описание", htmlAttributes: new { @class = "control-label col-md-2", @maxlength = "500" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.full_description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.full_description, 10, 50, htmlAttributes: new { @class = "form-control" } )
+                @*@Html.EditorFor(model => model.full_description, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.full_description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.boardgame_equipment, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.boardgame_equipment, "Комплектация", htmlAttributes: new { @class = "control-label col-md-2", @maxlength = "500" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.boardgame_equipment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.boardgame_equipment, 10, 50, htmlAttributes: new { @class = "form-control" } )
+                @*@Html.EditorFor(model => model.boardgame_equipment, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.boardgame_equipment, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -163,7 +166,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         @Html.HiddenFor(model => model.boardgame_id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.author_id, "author_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.author_id, "Автор", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("author_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.author_id, "", new { @class = "text-danger" })
@@ -171,7 +174,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.publisher_id, "publisher_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.publisher_id, "Издательство", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("publisher_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.publisher_id, "", new { @class = "text-danger" })
@@ -179,7 +182,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.complexity_id, "complexity_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.complexity_id, "Сложность", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("complexity_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.complexity_id, "", new { @class = "text-danger" })
@@ -194,9 +197,9 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
     </div>
 }
 
-<div>
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 
 <script>
     function showFile(e) {

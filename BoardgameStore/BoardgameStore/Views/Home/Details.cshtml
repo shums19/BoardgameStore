@@ -1,162 +1,159 @@
 ﻿@model BoardgameStore.Models.Boardgame
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Информация";
 }
 
-<h2>Details</h2>
+<h2 style="color: #32A4B8; font-weight: 700">Информация об игре</h2>
+<hr />
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <h3 style="color: #32A4B8; font-weight: 700">@Model.boardgame_name</h3>
+    </div>
+    <div class="col-xs-3">
+        @if (Model.cover_path.IsEmpty() || Model.cover_path.Equals(""))
+        {
+            <img src="~/Content/d12.png" alt="Обложка" style="height: 200px; width: auto">
+        }
+        else
+        {
+            <img src="~/Content/@Model.cover_path" alt="Обложка" style="height: 200px; width: auto">
+        }
+    </div>
+    <div class="col-xs-9">
+        @if (Model.Author != null)
+        {
+            <h5 style="color: #32A4B8; font-weight: 700">Автор: @Model.Author.author_name</h5>
+        }
+        @if (Model.Publisher != null)
+        {
+            <h5 style="color: #32A4B8; font-weight: 700">Издатель: @Model.Publisher.publisher_name</h5>
+        }
+    </div>
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+        @if (Model.years.HasValue)
+        {
+            <p class="left">@Model.years+ </p>
+        }
 
-<div>
-    <h4>Boardgame</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.boardgame_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.boardgame_name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.min_time)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.min_time)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.max_time)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.max_time)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.min_players)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.min_players)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.max_players)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.max_players)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.cover_path)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.cover_path)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.years)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.years)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.language)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.language)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.boardgame_number)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.boardgame_number)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.boardgame_cost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.boardgame_cost)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.independence)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.independence)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.images_paths)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.images_paths)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.preview_description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.preview_description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.full_description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.full_description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.boardgame_equipment)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.boardgame_equipment)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.author_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author.author_name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Complexity.complexity_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Complexity.complexity_name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Publisher.publisher_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Publisher.publisher_name)
-        </dd>
-
-    </dl>
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        @if (Model.min_time.HasValue && Model.max_time.HasValue)
+        {
+            <p>@Model.min_time-@Model.max_time</p>
+        }
+        else if (Model.min_time.HasValue && !Model.max_time.HasValue)
+        {
+            <p>@Model.min_time</p>
+        }
+        else if (!Model.min_time.HasValue && Model.max_time.HasValue)
+        {
+            <p>@Model.max_time</p>
+        }
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        @if (Model.min_players.HasValue && Model.max_players.HasValue)
+        {
+            <p>@Model.min_players-@Model.max_players</p>
+        }
+        else if (Model.min_players.HasValue && !Model.max_players.HasValue)
+        {
+            <p>@Model.min_players</p>
+        }
+        else if (!Model.min_players.HasValue && Model.max_players.HasValue)
+        {
+            <p>@Model.max_players</p>
+        }
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <br />
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-font" aria-hidden="true"></span>
+        @if (Model.language != null)
+        {
+            <p>@Model.language</p>
+        }
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+        @if (Model.Complexity != null)
+        {
+            <p>@Model.Complexity.complexity_name</p>
+        }
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <div class="col-xs-3 text-center" style="background-color:gainsboro; border: 1px solid #32A4B8">
+        <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
+        @if (Model.independence.HasValue)
+        {
+            if (Model.independence.Value)
+            {
+                <p>Независимая</p>
+            }
+            else
+            {
+                <p>Дополнение</p>
+            }
+        }
+        else
+        {
+            <p>-</p>
+        }
+    </div>
+    <div class="col-xs-5 text-center">
+        <h2 style="font-weight: 700 ">@Model.boardgame_cost руб.</h2>
+    </div>
+    <div class="col-xs-4 text-center" style="margin: 20px 0">
+        <a href="~/Home/IntoBasket/@Model.boardgame_id" class="btn btn-info" role="button">
+            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> В корзину
+        </a>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.boardgame_id }) |
-    @*@Html.ActionLink("Back to List", "Index")*@
-</p>
+<br />
+@if (Model.full_description != null)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 style="color: #32A4B8; font-weight: 700">Описание</h3>
+            <hr />
+            <p style="text-indent: 15px">@Model.full_description</p>
+        </div>
+    </div>
+}
+@if (Model.boardgame_equipment != null)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 style="color: #32A4B8; font-weight: 700">Комплектация</h3>
+            <hr />
+            <p style="text-indent: 15px">@Model.boardgame_equipment</p>
+        </div>
+    </div>
+}
+
+<div class="col-xs-12 text-center">
+    <a href="~/Home/Edit/@Model.boardgame_id" class="btn btn-primary" role="button">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Редактировать
+    </a>
+</div>
