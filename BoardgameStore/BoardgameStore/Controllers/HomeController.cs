@@ -55,27 +55,61 @@ namespace BoardgameStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame, HttpPostedFileBase image = null)
         {
+            bool checkCoverLength = true;
+            bool checkCoverType = true;
             if (ModelState.IsValid)
             {
                 if (image != null)
                 {
                     bool flag = false;
-                    string type = "";
-                    string covername = "";
-                    do
+                    string type = image.ContentType.Split(new char[] { '/' })[0];
+                    if (type.Equals("image"))
                     {
-                        //ContentType contentType = new ContentType(image.ContentType);
-                        //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
-                        type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length - 1];
-                        covername = Path.GetRandomFileName() + "." + type;
-                        if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
-                    } while (flag);
-                    image.SaveAs(Server.MapPath("~/Content/" + covername));
-                    boardgame.cover_path = covername;
+                        if (image.ContentLength <= 2000000)
+                        {
+                            string covername = "";
+                            do
+                            {
+                                //ContentType contentType = new ContentType(image.ContentType);
+                                //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
+                                type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length - 1];
+                                covername = Path.GetRandomFileName() + "." + type;
+                                if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
+                            } while (flag);
+                            image.SaveAs(Server.MapPath("~/Content/" + covername));
+                            boardgame.cover_path = covername;
+                        }
+                        else
+                        {
+                            checkCoverLength = false;
+                        }
+                    }
+                    else
+                    {
+                        checkCoverType = false;
+                    }
                 }
                 db.Boardgame.Add(boardgame);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (!checkCoverType)
+                {
+                    ViewBag.CoverType = true;
+                    ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
+                    ViewBag.complexity_id = new SelectList(db.Complexity, "complexity_id", "complexity_name", boardgame.complexity_id);
+                    ViewBag.publisher_id = new SelectList(db.Publisher, "publisher_id", "publisher_name", boardgame.publisher_id);
+
+                    return View("Edit", boardgame);
+                }
+                else if (!checkCoverLength)
+                {
+                    ViewBag.CoverLength = true;
+                    ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
+                    ViewBag.complexity_id = new SelectList(db.Complexity, "complexity_id", "complexity_name", boardgame.complexity_id);
+                    ViewBag.publisher_id = new SelectList(db.Publisher, "publisher_id", "publisher_name", boardgame.publisher_id);
+
+                    return View("Edit", boardgame);
+                }
+                return RedirectToAction("Catalog");
             }
 
             ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
@@ -109,31 +143,66 @@ namespace BoardgameStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "boardgame_name,min_time,max_time,min_players,max_players,cover_path,years,language,boardgame_number,boardgame_cost,independence,images_paths,preview_description,full_description,boardgame_equipment,boardgame_id,author_id,publisher_id,complexity_id")] Boardgame boardgame, HttpPostedFileBase image = null)
         {
+            bool checkCoverLength = true;
+            bool checkCoverType = true;
             if (ModelState.IsValid)
             {
                 if (image != null)
                 {
                     bool flag = false;
-                    string type = "";
-                    string covername = "";
-                    do
+                    string type = image.ContentType.Split(new char[] { '/' })[0];
+                    if (type.Equals("image"))
                     {
-                        //ContentType contentType = new ContentType(image.ContentType);
-                        //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
-                        type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length-1];
-                        covername = Path.GetRandomFileName() + "." + type;
-                        if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
-                    } while (flag);
-                    image.SaveAs(Server.MapPath("~/Content/" + covername));
-                    boardgame.cover_path = covername;
+                        if (image.ContentLength <= 2000000)
+                        {
+                            string covername = "";
+                            do
+                            {
+                                //ContentType contentType = new ContentType(image.ContentType);
+                                //type = image.ContentType.Split(new char[] { '/' })[image.ContentType.Split(new char[] { '/' }).Length-1];
+                                type = System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' })[System.IO.Path.GetFileName(image.FileName).Split(new char[] { '.' }).Length - 1];
+                                covername = Path.GetRandomFileName() + "." + type;
+                                if (System.IO.File.Exists("~/Content/" + covername)) flag = true;
+                            } while (flag);
+                            image.SaveAs(Server.MapPath("~/Content/" + covername));
+                            boardgame.cover_path = covername;
+                        }
+                        else
+                        {
+                            checkCoverLength = false;
+                        }
+                    }
+                    else
+                    {
+                        checkCoverType = false;
+                    }
                 }
                 db.Entry(boardgame).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (!checkCoverType)
+                {
+                    ViewBag.CoverType = true;
+                    ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
+                    ViewBag.complexity_id = new SelectList(db.Complexity, "complexity_id", "complexity_name", boardgame.complexity_id);
+                    ViewBag.publisher_id = new SelectList(db.Publisher, "publisher_id", "publisher_name", boardgame.publisher_id);
+
+                    return View(boardgame);
+                }
+                else if (!checkCoverLength)
+                {
+                    ViewBag.CoverLength = true;
+                    ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
+                    ViewBag.complexity_id = new SelectList(db.Complexity, "complexity_id", "complexity_name", boardgame.complexity_id);
+                    ViewBag.publisher_id = new SelectList(db.Publisher, "publisher_id", "publisher_name", boardgame.publisher_id);
+
+                    return View(boardgame);
+                }
+                return RedirectToAction("Catalog", db.Boardgame);
             }
             ViewBag.author_id = new SelectList(db.Author, "author_id", "author_name", boardgame.author_id);
             ViewBag.complexity_id = new SelectList(db.Complexity, "complexity_id", "complexity_name", boardgame.complexity_id);
             ViewBag.publisher_id = new SelectList(db.Publisher, "publisher_id", "publisher_name", boardgame.publisher_id);
+            
             return View(boardgame);
         }
 
@@ -158,7 +227,10 @@ namespace BoardgameStore.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Boardgame boardgame = db.Boardgame.Find(id);
-            System.IO.File.Delete(Server.MapPath("~/Content/" + boardgame.cover_path));
+            if (boardgame.cover_path != null && boardgame.cover_path != "")
+            {
+                System.IO.File.Delete(Server.MapPath("~/Content/" + boardgame.cover_path));
+            }
             db.Boardgame.Remove(boardgame);
             db.SaveChanges();
             return RedirectToAction("Index");

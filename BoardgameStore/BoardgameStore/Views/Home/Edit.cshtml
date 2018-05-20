@@ -67,7 +67,18 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
                     }
                     else
                     {
-                        <p>Изображение не выбрано.</p>
+                        if (ViewBag.CoverType != null && ViewBag.CoverType)
+                        {
+                            <p class="text-danger">Выбранный вами файл не является изображением. Загрузите изображение или оставьте поле пустым.</p>
+                        }
+                        else if (ViewBag.CoverLength != null && ViewBag.CoverLength == true)
+                        {
+                            <p class="text-danger">Выбранный вами файл имеет слишком большой размер. Загрузите изображение меньше 2МБ или оставьте поле пустым.</p>
+                        }
+                        else
+                        {
+                            <p>Изображение не выбрано.</p>
+                        }
                     }
                 </div>
                 @*@Html.EditorFor(model => model.cover_path, new { htmlAttributes = new { @class = "form-control" } })
@@ -177,7 +188,7 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" id="submit" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -199,6 +210,10 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
                 };
             })(f);
             fr.readAsDataURL(f);
+        }
+        else {
+            var para = document.createElement('p');
+            document.getElementById('cover-image').innerHTML = '<p>Файл ' + f.name + ' не является изображением. Загрузите изображение.</p>';
         }
 
     }

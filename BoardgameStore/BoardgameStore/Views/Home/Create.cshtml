@@ -58,8 +58,9 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         <div class="form-group">
             @Html.LabelFor(model => model.cover_path, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" id="upload-cover" name="upload" accept="image/*"/><br>
+                <input type="file" id="upload-cover" name="image" accept="image/*" maxlength="2048"/><br>
                 <div id="cover-image"></div>
+
                 @*@Html.EditorFor(model => model.cover_path, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.cover_path, "", new { @class = "text-danger" })*@
             </div>
@@ -180,14 +181,24 @@ FormMethod.Post, new { enctype = "multipart/form-data" }))
         var f = e.target.files[0];
         //for (var i = 0, f; f = files[i]; i++) {
         if (f.type.match('image.*')) {
-            var fr = new FileReader();
-            fr.onload = (function (theFile) {
-                return function (e) {
-                    var div = document.createElement('div');
-                    document.getElementById('cover-image').innerHTML = "<img src='" + e.target.result + "' style='width: 100px; height: auto' />";
-                };
-            })(f);
-            fr.readAsDataURL(f);
+            if (f.length > 2048) {
+                var para = document.createElement('p');
+                document.getElementById('cover-image').innerHTML = '<p>Файл ' + f.name + ' имеет слишком большой размер. Загрузите изображение менее 2МБ. Иначе будет использоваться изображение по умолчанию.</p>';
+            }
+            else {
+                var fr = new FileReader();
+                fr.onload = (function (theFile) {
+                    return function (e) {
+                        var div = document.createElement('div');
+                        document.getElementById('cover-image').innerHTML = "<img src='" + e.target.result + "' style='width: 100px; height: auto' />";
+                    };
+                })(f);
+                fr.readAsDataURL(f);
+            }
+        }
+        else {
+            var para = document.createElement('p');
+            document.getElementById('cover-image').innerHTML = '<p>Файл ' + f.name + ' не является изображением. Загрузите изображение.</p>';
         }
 
     }
